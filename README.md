@@ -10,7 +10,7 @@ The simplest rule of thumb is that you should set up a `has_many :through` relat
 ```
 rails g model User name:string
 rails g model Movies name:string
-rails g model Subscription type:string user:references movie:references
+rails g model Subscription tier:string user:references movie:references
 ```
 
 #### Step 2 -- A User streams Movies through a Subscription. Here is what the model associations look like:
@@ -45,14 +45,14 @@ rails db:migrate
 #### Step 4 -- Populate the Database
 
 ```
-helen = User.create name: 'Helen'
-thor = Movie.create title: 'Thor: Ragnarok'
-Subscription.create type: 'monthly', user: helen, movie: thor
+helen = User.create(name: 'Helen')
+thor = Movie.create(title: 'Thor: Ragnarok')
+Subscription.create(tier: 'monthly', user: helen, movie: thor)
 ```
 
 #### Step 5 -- Perform Finds and Queries
 
 ```
 User.find_by(name: 'Helen').movies  # find all Helen's movies
-User.joins(:subscriptions).where(subscriptions: {type: 'monthly'})
+User.joins(:subscriptions).where(subscriptions: {tier: 'monthly'})
 ```
